@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { nanoid } from 'nanoid';
+
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { PhoneInputForm, ContactsList, Filter } from 'components';
@@ -21,26 +21,20 @@ export const App = () => {
 
   const dispatch = useDispatch();
 
-  const addContact = ({ name, number }) => {
-    const contact = {
-      id: nanoid(),
-      name,
-      number,
-    };
-
-    const isExist = contacts.find(({ name }) => name === contact.name.trim());
-
-    if (isExist) {
-      Notify.failure(`${contact.name} is already in contacts.`);
-      return;
-    }
-
-    dispatch(addContactAction(contact));
-  };
-
   useEffect(() => {
     localStorage.setItem(LS_KEY, JSON.stringify(contacts));
   }, [contacts]);
+
+  const addContact = data => {
+    const isExist = contacts.find(({ name }) => data.name.trim() === name);
+
+    if (isExist) {
+      Notify.failure(`${data.name} is already in contacts.`);
+      return;
+    }
+
+    dispatch(addContactAction(data));
+  };
 
   const deleteContact = contactId => {
     dispatch(deleteContactAction(contactId));

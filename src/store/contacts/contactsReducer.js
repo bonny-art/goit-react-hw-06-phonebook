@@ -13,22 +13,25 @@ const initialState = {
 
 export const contactsReducer = createReducer(initialState, builder => {
   builder
-    .addCase(addContactAction, (state, action) => {
-      return {
-        ...state,
-        contacts: [action.payload, ...state.contacts],
-      };
+    .addCase(addContactAction, (state, { payload }) => {
+      // return {
+      //   ...state,
+      //   contacts: [action.payload, ...state.contacts],
+      // };
+      state.contacts.unshift(payload);
     })
-    .addCase(deleteContactAction, (state, action) => {
-      return {
-        ...state,
-        contacts: state.contacts.filter(c => c.id !== action.payload),
-      };
+    .addCase(deleteContactAction, (state, { payload }) => {
+      // return {
+      //   ...state,
+      //   contacts: state.contacts.filter(c => c.id !== action.payload),
+      // };
+      state.contacts = state.contacts.filter(c => c.id !== payload);
     })
-    .addCase(setContactsAction, (state, action) => {
-      return {
-        ...state,
-        contacts: [...action.payload],
-      };
+    .addCase(setContactsAction, (state, { payload }) => {
+      // return {
+      //   ...state,
+      //   contacts: [...action.payload],
+      // };
+      state.contacts = payload;
     });
 });

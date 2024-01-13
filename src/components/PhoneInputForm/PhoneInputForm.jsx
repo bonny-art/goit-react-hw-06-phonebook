@@ -33,7 +33,9 @@ const schema = yup.object().shape({
 
 export const PhoneInputForm = ({ onSubmit }) => {
   const handleSubmit = (values, { resetForm }) => {
-    onSubmit({ ...values });
+    console.log('values :>> ', values);
+
+    onSubmit(values);
     resetForm();
   };
 
