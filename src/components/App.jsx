@@ -10,7 +10,7 @@ import {
   deleteContactAction,
   changeFilterAction,
 } from 'store';
-import { LS_KEY } from 'store/constants';
+import { LS_KEY } from 'constants';
 
 export const App = () => {
   const contacts = useSelector(state => state.contacts.contacts);
