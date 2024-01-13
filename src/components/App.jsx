@@ -1,17 +1,25 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
+import { useDispatch, useSelector } from 'react-redux';
 import { nanoid } from 'nanoid';
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
 
 import { PhoneInputForm, ContactsList, Filter } from 'components';
 import { Section, Header, Title } from './Section/Section.styled';
-
-const LS_KEY = 'phone_contacts';
+import {
+  addContactAction,
+  deleteContactAction,
+  changeFilterAction,
+} from 'store';
+import { LS_KEY } from 'store/constants';
 
 export const App = () => {
-  const [contacts, setContacts] = useState(() => {
-    return JSON.parse(localStorage.getItem(LS_KEY)) || [];
-  });
-  const [filter, setFilter] = useState('');
+  const contacts = useSelector(state => state.contacts.contacts);
+  const filter = useSelector(state => state.filter.filter);
+
+  console.log('contacts :>> ', contacts);
+  console.log('filter :>> ', filter);
+
+  const dispatch = useDispatch();
 
   const addContact = ({ name, number }) => {
     const contact = {
@@ -27,7 +35,7 @@ export const App = () => {
       return;
     }
 
-    return setContacts(prev => [contact, ...prev]);
+    dispatch(addContactAction(contact));
   };
 
   useEffect(() => {
@@ -35,16 +43,15 @@ export const App = () => {
   }, [contacts]);
 
   const deleteContact = contactId => {
-    setContacts(prev => prev.filter(({ id }) => contactId !== id));
+    dispatch(deleteContactAction(contactId));
   };
 
   const changeFilter = e => {
-    setFilter(e.currentTarget.value);
+    dispatch(changeFilterAction(e.target.value.toLowerCase()));
   };
 
-  const normalizedFilter = filter.toLowerCase();
   const visibleContacts = contacts.filter(contact =>
-    contact.name.toLowerCase().includes(normalizedFilter)
+    contact.name.toLowerCase().includes(filter)
   );
 
   return (
