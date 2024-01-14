@@ -9,6 +9,9 @@ import {
   FormButton,
   ErrorMessageStyled,
 } from './PhoneInputForm.styled';
+import { useDispatch, useSelector } from 'react-redux';
+import { addContactAction } from 'store';
+import { Notify } from 'notiflix';
 
 const INITIAL_STATE = {
   name: '',
@@ -31,9 +34,24 @@ const schema = yup.object().shape({
     .required('Phone number is required'),
 });
 
-export const PhoneInputForm = ({ onSubmit }) => {
+export const PhoneInputForm = () => {
+  const contacts = useSelector(state => state.contacts.contacts);
+
+  const dispatch = useDispatch();
+
+  const addContact = data => {
+    const isExist = contacts.find(({ name }) => data.name.trim() === name);
+
+    if (isExist) {
+      Notify.failure(`${data.name} is already in contacts.`);
+      return;
+    }
+
+    dispatch(addContactAction(data));
+  };
+
   const handleSubmit = (values, { resetForm }) => {
-    onSubmit(values);
+    addContact(values);
     resetForm();
   };
 
