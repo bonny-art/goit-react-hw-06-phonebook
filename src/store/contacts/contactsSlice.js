@@ -1,6 +1,8 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
-const initialState = { contacts: [] };
+const initialState = {
+  contacts: [],
+};
 
 const contactsSlice = createSlice({
   name: 'contacts',
