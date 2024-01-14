@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 
 import { Notify } from 'notiflix/build/notiflix-notify-aio';
@@ -10,20 +10,12 @@ import {
   deleteContactAction,
   changeFilterAction,
 } from 'store';
-import { LS_KEY } from 'constants';
 
 export const App = () => {
   const contacts = useSelector(state => state.contacts.contacts);
   const filter = useSelector(state => state.filter.filter);
 
-  console.log('contacts :>> ', contacts);
-  console.log('filter :>> ', filter);
-
   const dispatch = useDispatch();
-
-  useEffect(() => {
-    localStorage.setItem(LS_KEY, JSON.stringify(contacts));
-  }, [contacts]);
 
   const addContact = data => {
     const isExist = contacts.find(({ name }) => data.name.trim() === name);

@@ -1,10 +1,6 @@
 import { createSlice, nanoid } from '@reduxjs/toolkit';
 
-import { LS_KEY } from 'constants';
-
-const initialState = {
-  contacts: JSON.parse(localStorage.getItem(LS_KEY)) || [],
-};
+const initialState = { contacts: [] };
 
 const contactsSlice = createSlice({
   name: 'contacts',
