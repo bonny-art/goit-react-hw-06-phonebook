@@ -12,6 +12,7 @@ export const ContactsList = () => {
   const visibleContacts = contacts.filter(contact =>
     contact.name.toLowerCase().includes(filter)
   );
+
   return (
     <ContactsListContainer>
       {visibleContacts.map(({ id, name, number }) => {
